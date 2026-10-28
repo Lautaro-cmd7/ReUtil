@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ÚtilEncontrado</title>
+.encabezado {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: white;
+    color: black;
+    padding: 15px 25px;
+    border-bottom: 2px solid #ddd;
+}
+
+.escudo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+
+.encabezado h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.encabezado p {
+    margin: 5px 0 0;
+}
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+body {
+    background: #f2f4f7;
+    color: #222;
+}
+header {
+    background: #17365D;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    border-bottom: 4px solid #F2C94C;
+}
+
+header h1 {
+    color: white;
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+header p {
+    color: #E8EEF7;
+}
+
+.escudo {
+    width: 140px;
+    height: 140px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 12px;
+}
+header h1 {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+header p {
+    color: #333;
+}
+.container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+.buttons {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+button {
+    border: none;
+    border-radius: 8px;
+    padding: 12px 18px;
+    cursor: pointer;
+    font-size: 15px;
+}
+.primary {
+    background: #2563eb;
+    color: white;
+}
+.secondary {
+    background: white;
+    border: 1px solid #ddd;
+}
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 3px 12px rgba(0,0,0,.08);
+}
+.card h2 {
+    margin-bottom: 20px;
+}
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+input, textarea, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 15px;
+}
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+.form-button {
+    margin-top: 20px;
+    width: 100%;
+    background: #16a34a;
+    color: white;
+}
+.search {
+    margin-bottom: 20px;
+}
+.objects {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+.object {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 18px;
+    background: white;
+    overflow-wrap: anywhere;
+}
+.object h3 {
+    margin-bottom: 10px;
+}
+.object p {
+    margin-top: 8px;
+    line-height: 1.4;
+}
+.object-image {
+    width: 100%;
+    max-height: 350px;
+    object-fit: contain;
+    margin-bottom: 15px;
+}
+.number {
+    color: #2563eb;
+    font-weight: bold;
+}
+.status {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 13px;
+    background: #dcfce7;
+    color: #166534;
+}
+.returned {
+    background: #fee2e2;
+    color: #991b1b;
+}
+.delete {
+    margin-top: 12px;
+    background: #dc2626;
+    color: white;
+    width: 100%;
+}
+.empty {
+    text-align: center;
+    color: #777;
+    padding: 20px;
+}
+#imagePreview {
+    display: none;
+    max-width: 100%;
+    max-height: 300px;
+    margin-top: 12px;
+}
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #777;
+}
+@media (max-width: 600px) {
+    .buttons {
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+<body>
+<header class="encabezado">
+    <img id="escudo" src="./escudo.jpg" class="escudo" alt="Escudo de la escuela">
+
+    <div>
+        <h1>ÚtilEncontrado</h1>
+        <p>Sistema escolar de objetos perdidos</p>
+    </div>
+</header>
+<div class="container">
+    <div class="buttons">
+        <button class="primary" onclick="mostrarRegistro()">
+            ➕ Registrar objeto
+        </button>
+        <button class="secondary" onclick="mostrarBusqueda()">
+            🔎 Buscar objeto
+        </button>
+    </div>
+    <section id="registro" class="card">
+        <h2>📦 Registrar objeto encontrado</h2>
+        <form id="formulario">
+            <label for="nombre">Nombre del objeto</label>
+            <input id="nombre" type="text"
+                   placeholder="Ej: Cartuchera negra" required>
+            <label for="categoria">Categoría</label>
+            <select id="categoria">
+                <option>Útiles</option>
+                <option>Ropa</option>
+                <option>Libros</option>
+                <option>Electrónica</option>
+                <option>Otros</option>
+            </select>
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" required></textarea>
+            <label for="lugar">Lugar donde fue encontrado</label>
+            <input id="lugar" type="text"
+                   placeholder="Ej: Aula 3" required>
+            <label for="fecha">Fecha</label>
+            <input id="fecha" type="date" required>
+            <label for="foto">Foto del objeto</label>
+            <input id="foto" type="file" accept="image/*">
+            <img id="imagePreview" alt="Vista previa">
+            <button type="submit" class="form-button">
+                Guardar objeto
+            </button>
+        </form>
+    </section>
+    <section id="busqueda" class="card">
+        <h2>🔎 Buscar objetos</h2>
+        <input id="buscar" class="search"
+               type="text"
+               placeholder="Buscar por nombre, descripción o lugar..."
+               oninput="mostrarObjetos()">
+        <div id="listaObjetos" class="objects"></div>
+    </section>
+</div>
+<footer>Proyecto escolar - Sistema de objetos perdidos</footer>
+<script>
+/*
+PARA AGREGAR EL ESCUDO:
+1. Abajo te explico cómo convertir la foto a Base64.
+2. Pegá el resultado en la constante ESCUDO_BASE64.
+*/
+const ESCUDO_BASE64 = "";
+if (ESCUDO_BASE64) {
+    document.getElementById("escudo").src =
+        "data:image/jpeg;base64," + ESCUDO_BASE64;
+} else {
+    document.getElementById("escudo").style.display = "none";
+}
+let objetos = JSON.parse(localStorage.getItem("objetos")) || [];
+let imagenSeleccionada = "";
+function mostrarRegistro() {
+    document.getElementById("registro").style.display = "block";
+    document.getElementById("busqueda").style.display = "none";
+}
+function mostrarBusqueda() {
+    document.getElementById("registro").style.display = "none";
+    document.getElementById("busqueda").style.display = "block";
+    mostrarObjetos();
+}
+document.getElementById("foto").addEventListener("change", function(e) {
+    const archivo = e.target.files[0];
+    const preview = document.getElementById("imagePreview");
+    if (!archivo) {
+        imagenSeleccionada = "";
+        preview.style.display = "none";
+        return;
+    }
+    if (!archivo.type.startsWith("image/")) {
+        alert("Seleccioná una imagen válida.");
+        e.target.value = "";
+        return;
+    }
+    if (archivo.size > 1024 * 1024) {
+        alert("La foto debe pesar menos de 1 MB.");
+        e.target.value = "";
+        return;
+    }
+    const lector = new FileReader();
+    lector.onload = function(event) {
+        imagenSeleccionada = event.target.result;
+        preview.src = imagenSeleccionada;
+        preview.style.display = "block";
+    };
+    lector.readAsDataURL(archivo);
+});
+function guardarObjetos() {
+    try {
+        localStorage.setItem("objetos", JSON.stringify(objetos));
+        return true;
+    } catch (error) {
+        alert("No se pudo guardar. Probá con una foto más pequeña.");
+        return false;
+    }
+}
+function escaparHTML(texto) {
+    const elemento = document.createElement("span");
+    elemento.textContent = String(texto ?? "");
+    return elemento.innerHTML;
+}
+document.getElementById("formulario").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const numeros = objetos.map(o => o.numero);
+    const numero = numeros.length ? Math.max(...numeros) + 1 : 1;
+    const nuevoObjeto = {
+        numero,
+        nombre: document.getElementById("nombre").value.trim(),
+        categoria: document.getElementById("categoria").value,
+        descripcion: document.getElementById("descripcion").value.trim(),
+        lugar: document.getElementById("lugar").value.trim(),
+        fecha: document.getElementById("fecha").value,
+        foto: imagenSeleccionada,
+        devuelto: false
+    };
+    objetos.push(nuevoObjeto);
+    if (!guardarObjetos()) {
+        objetos.pop();
+        return;
+    }
+    alert("Objeto registrado correctamente. Número: #" + numero);
+    this.reset();
+    imagenSeleccionada = "";
+    document.getElementById("imagePreview").style.display = "none";
+    mostrarBusqueda();
+});
+function mostrarObjetos() {
+    const lista = document.getElementById("listaObjetos");
+    const busqueda = document.getElementById("buscar").value.toLowerCase().trim();
+    const filtrados = objetos.filter(o =>
+        [o.nombre, o.descripcion, o.lugar, o.categoria, String(o.numero)]
+        .some(valor => String(valor).toLowerCase().includes(busqueda))
+    );
+    lista.replaceChildren();
+    if (!filtrados.length) {
+        lista.innerHTML = '<div class="empty">No se encontraron objetos.</div>';
+        return;
+    }
+    filtrados.forEach(o => {
+        const tarjeta = document.createElement("article");
+        tarjeta.className = "object";
+        if (o.foto) {
+            const imagen = document.createElement("img");
+            imagen.className = "object-image";
+            imagen.src = "./escudo.jpg";
+            imagen.alt = "escudo de la escuela";
+            imagen.style.width = "100px";
+            imagen.style.height = "auto";
+
+            tarjeta.appendChild(imagen);
+        }
+        const titulo = document.createElement("h3");
+        titulo.textContent = o.nombre;
+        tarjeta.appendChild(titulo);
+        const detalles = document.createElement("p");
+        detalles.innerHTML =
+            "<strong>Número:</strong> #" + o.numero +
+            "<br><strong>Categoría:</strong> " + escaparHTML(o.categoria) +
+            "<br><strong>Descripción:</strong> " + escaparHTML(o.descripcion) +
+            "<br><strong>Lugar:</strong> " + escaparHTML(o.lugar) +
+            "<br><strong>Fecha:</strong> " + escaparHTML(o.fecha);
+        tarjeta.appendChild(detalles);
+        const estado = document.createElement("span");
+        estado.className = "status" + (o.devuelto ? " returned" : "");
+        estado.textContent = o.devuelto ? "Devuelto" : "Pendiente de devolución";
+        tarjeta.appendChild(estado);
+        if (!o.devuelto) {
+            const devolver = document.createElement("button");
+            devolver.className = "form-button";
+            devolver.textContent = "Marcar como devuelto";
+            devolver.onclick = () => marcarDevuelto(o.numero);
+            tarjeta.appendChild(devolver);
+        }
+        const eliminar = document.createElement("button");
+        eliminar.className = "delete";
+        eliminar.textContent = "Eliminar registro";
+        eliminar.onclick = () => eliminarObjeto(o.numero);
+        tarjeta.appendChild(eliminar);
+        lista.appendChild(tarjeta);
+    });
+}
+function marcarDevuelto(numero) {
+    const objeto = objetos.find(o => o.numero === numero);
+    if (objeto) {
+        objeto.devuelto = true;
+        if (guardarObjetos()) mostrarObjetos();
+    }
+}
+function eliminarObjeto(numero) {
+    if (confirm("¿Seguro que querés eliminar este registro?")) {
+        const anteriores = objetos;
+        objetos = objetos.filter(o => o.numero !== numero);
+        if (!guardarObjetos()) {
+            objetos = anteriores;
+            return;
+        }
+        mostrarObjetos();
+    }
+}
+mostrarBusqueda();
+</script>
+</body>
+</html>
